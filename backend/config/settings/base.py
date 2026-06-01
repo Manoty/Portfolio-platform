@@ -184,3 +184,6 @@ ADMIN_EMAIL = config("ADMIN_EMAIL", default="")
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
+
+# Frontend URL — used in password reset emails
+FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:5173")
