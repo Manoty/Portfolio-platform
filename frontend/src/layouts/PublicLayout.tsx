@@ -1,17 +1,15 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 export default function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="h-16 border-b flex items-center px-8 font-semibold">
-        Portfolio — Nav placeholder
-      </header>
-      <main className="flex-1">
+      <Navbar />
+      <main className="flex-1 pt-16">
         <Outlet />
       </main>
-      <footer className="h-16 border-t flex items-center justify-center text-sm text-gray-500">
-        Footer placeholder
-      </footer>
+      <Footer />
     </div>
   );
 }
