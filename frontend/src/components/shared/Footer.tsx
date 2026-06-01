@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 
 const SOCIAL_LINKS = [
-  { icon: Github, href: "https://github.com/yourhandle", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/yourhandle", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com/yourhandle", label: "Twitter" },
-  { icon: Mail, href: "mailto:your@email.com", label: "Email" },
+  { href: "https://github.com/Manoty", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/kevin-manoti-394933233/", label: "LinkedIn" },
+  { href: "https://twitter.com/yourhandle", label: "Twitter" },
+  { href: "mailto:kevinnoty21@gmail.com", label: "Email" },
 ];
 
 const FOOTER_LINKS = [
@@ -44,8 +43,8 @@ export default function Footer() {
 
           {/* Social */}
           <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
-              
+            {SOCIAL_LINKS.map(({ href, label }) => (
+              <a
                 key={label}
                 href={href}
                 target="_blank"
@@ -53,7 +52,8 @@ export default function Footer() {
                 aria-label={label}
                 className="p-2 rounded-lg hover:text-white hover:bg-gray-800 transition-colors"
               >
-                <Icon size={18} />
+                <span className="sr-only">{label}</span>
+                <span aria-hidden>{label}</span>
               </a>
             ))}
           </div>
