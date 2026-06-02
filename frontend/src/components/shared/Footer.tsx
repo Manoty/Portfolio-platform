@@ -23,7 +23,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="text-xl font-bold text-white">
-              {"<YourName />"}
+              {"<Kevin Manoti />"}
             </Link>
             <p className="text-sm mt-1">Building things for the web.</p>
           </div>
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-          © {year} YourName. Built with React + Django.
+          © {year} Kevin Manoti. Built with React + Django.
         </div>
       </div>
     </footer>
