@@ -212,6 +212,32 @@ function HeroSection() {
 }
 
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// TRANSITION BRIDGE — visual connector between hero (dark) and about (light)
+// ---------------------------------------------------------------------------
+function TransitionBridge() {
+  return (
+    <div className="relative bg-gray-950 -mb-1">
+      {/* Gradient fade */}
+      <div className="h-20 bg-gradient-to-b from-gray-950 to-slate-50" />
+
+      {/* Center scroll prompt */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="flex items-center gap-6">
+          <div className="h-px w-20 bg-gradient-to-r from-transparent to-blue-500/30" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-[10px] font-bold tracking-widest uppercase text-gray-600">
+              About
+            </span>
+          </div>
+          <div className="h-px w-20 bg-gradient-to-l from-transparent to-blue-500/30" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // ABOUT
 // ---------------------------------------------------------------------------
 function AboutSection() {
@@ -223,39 +249,52 @@ function AboutSection() {
   ];
 
   const highlights = [
-    { icon: Code2, label: "Frontend", desc: "React, TypeScript, Tailwind CSS" },
-    { icon: Server, label: "Backend", desc: "Python, Django, REST, Celery" },
-    { icon: Database, label: "Database", desc: "PostgreSQL, Redis, migrations" },
+    { icon: Code2, label: "Frontend", desc: "React · TypeScript · Tailwind" },
+    { icon: Server, label: "Backend", desc: "Python · Django · REST · Celery" },
+    { icon: Database, label: "Database", desc: "PostgreSQL · Redis · Migrations" },
   ];
 
   return (
-    <section id="about" className="py-24 bg-white relative">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="about"
+      className="py-24 bg-slate-50 relative"
+    >
+      {/* Subtle top border accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left — visual */}
+          {/* Left — visual card */}
           <div className="relative order-2 lg:order-1">
             <div className="relative w-full max-w-md mx-auto">
-              {/* Main card */}
-              <div className="rounded-3xl bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 p-8 border border-blue-100/50">
+              {/* Main profile card */}
+              <div className="rounded-3xl bg-white p-8 border border-gray-200 shadow-xl shadow-gray-200/60">
                 <div className="text-center mb-6">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white text-4xl font-black mx-auto mb-4 shadow-xl shadow-blue-500/30">
+                  {/* Avatar */}
+                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white text-3xl font-black mx-auto mb-4 shadow-xl shadow-blue-500/30">
                     KM
                   </div>
-                  <h3 className="font-bold text-gray-900 text-xl">Kevin Manoti</h3>
-                  <p className="text-blue-600 text-sm font-medium">Full Stack Engineer</p>
+                  <h3 className="font-black text-gray-900 text-xl">Kevin Manoti</h3>
+                  <p className="text-blue-600 text-sm font-semibold">Full Stack Engineer</p>
+                  <div className="flex items-center justify-center gap-1.5 mt-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse-dot" />
+                    <span className="text-xs text-gray-400 font-medium">Available Now</span>
+                  </div>
                 </div>
+
+                {/* Skill highlights */}
                 <div className="space-y-2.5">
                   {highlights.map(({ icon: Icon, label, desc }) => (
                     <div
                       key={label}
-                      className="flex items-center gap-3 bg-white/80 rounded-xl px-4 py-3 border border-white shadow-sm"
+                      className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-200"
                     >
                       <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
                         <Icon size={15} className="text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-gray-700">{label}</p>
-                        <p className="text-xs text-gray-500">{desc}</p>
+                        <p className="text-xs font-bold text-gray-800">{label}</p>
+                        <p className="text-xs text-gray-400 font-medium">{desc}</p>
                       </div>
                     </div>
                   ))}
@@ -263,54 +302,74 @@ function AboutSection() {
               </div>
 
               {/* Floating badges */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse-dot" />
-                <span className="text-sm font-semibold text-gray-800">Available Now</span>
+              <div className="absolute -top-5 -right-5 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3">
+                <p className="text-2xl font-black text-gray-900">5+</p>
+                <p className="text-xs text-gray-500 font-semibold">Yrs. Exp.</p>
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-gray-950 rounded-2xl shadow-xl px-4 py-3 text-center">
-                <p className="text-2xl font-black text-white">5+</p>
-                <p className="text-xs text-gray-400">Yrs Exp.</p>
+
+              <div className="absolute -bottom-5 -left-5 bg-gray-950 rounded-2xl shadow-xl px-4 py-3 border border-gray-800">
+                <p className="text-xs text-green-400 font-bold mb-0.5 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                  Nairobi, Kenya
+                </p>
+                <p className="text-xs text-gray-500 font-medium">Open to Remote</p>
               </div>
             </div>
           </div>
 
-          {/* Right — content */}
+          {/* Right — text content */}
           <div className="order-1 lg:order-2">
-            <p className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3">
+            <p className="text-blue-600 font-bold text-xs uppercase tracking-widest mb-3">
               About Me
             </p>
-            <h2 className="text-4xl font-black text-gray-900 leading-tight mb-5">
-              Turning complex problems into{" "}
+            <h2 className="text-4xl font-black text-gray-900 leading-[1.1] mb-5">
+              Turning complex problems
+              <br />
+              into{" "}
               <span className="gradient-text">elegant solutions</span>
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
               I'm a full-stack engineer with over 5 years of experience building
               scalable web applications. I specialise in Python/Django backends
-              and React frontends with a strong focus on clean architecture,
+              and React frontends — with a strong focus on clean architecture,
               testability, and developer experience.
             </p>
             <p className="text-gray-600 leading-relaxed mb-8 text-[15px]">
               I've worked across startups and mid-size companies, shipping products
-              from zero to production. I care deeply about code quality, API design,
-              and building systems that teams can maintain and extend with confidence.
+              from zero to production. I care about code quality, API design, and
+              building systems that teams can extend confidently for years.
             </p>
 
-            <div className="flex items-center gap-2 text-gray-500 text-sm mb-8 font-medium">
+            <div className="flex items-center gap-2 text-sm mb-8 font-semibold text-gray-500">
               <MapPin size={15} className="text-blue-500 shrink-0" />
               Nairobi, Kenya · Open to Remote Roles
             </div>
 
-            {/* Stats */}
+            {/* Stats grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {stats.map(({ label, value }) => (
                 <div
                   key={label}
-                  className="text-center p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-colors duration-200"
+                  className="text-center p-4 rounded-2xl bg-white border border-gray-200 shadow-sm hover:border-blue-300 hover:shadow-md hover:shadow-blue-100 transition-all duration-200 cursor-default"
                 >
                   <p className="text-2xl font-black text-gray-900">{value}</p>
-                  <p className="text-xs text-gray-500 mt-1 font-medium">{label}</p>
+                  <p className="text-xs text-gray-400 mt-1 font-semibold">{label}</p>
                 </div>
               ))}
+            </div>
+
+            {/* CTA row */}
+            <div className="flex gap-3 mt-8">
+              <Link to="/projects">
+                <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-bold shadow-md shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                  See My Work <ArrowRight size={15} />
+                </button>
+              </Link>
+              <a href="/#contact">
+                <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-sm font-bold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200">
+                  Get In Touch
+                </button>
+              </a>
             </div>
           </div>
         </div>
