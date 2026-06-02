@@ -13,115 +13,198 @@ import type { ProjectSummary, PostSummary, Testimonial, Skill, Experience } from
 import Badge from "@/components/ui/Badge";
 import { SkeletonCard } from "@/components/ui/Spinner";
 import { formatDate, formatDateShort, cn } from "@/lib/utils";
+import DeveloperIllustration from "@/components/shared/DeveloperIllustration";
 
 // ---------------------------------------------------------------------------
-// HERO — Compact, punchy, shows content below fold
+// ---------------------------------------------------------------------------
+// HERO — Two-column: text left, developer illustration right
 // ---------------------------------------------------------------------------
 function HeroSection() {
-  const techStack = ["Django", "React", "TypeScript", "PostgreSQL", "Docker", "Python"];
+  const techStack = [
+    { label: "Python", color: "text-indigo-300 border-indigo-500/30 bg-indigo-500/10" },
+    { label: "Django", color: "text-green-300 border-green-500/30 bg-green-500/10" },
+    { label: "React", color: "text-cyan-300 border-cyan-500/30 bg-cyan-500/10" },
+    { label: "TypeScript", color: "text-blue-300 border-blue-500/30 bg-blue-500/10" },
+    { label: "PostgreSQL", color: "text-sky-300 border-sky-500/30 bg-sky-500/10" },
+    { label: "Docker", color: "text-blue-300 border-blue-400/30 bg-blue-500/10" },
+  ];
 
   return (
-    <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-gray-950">
-      {/* Animated background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-600/8 rounded-full blur-3xl animate-blob" />
-        <div className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-cyan-500/6 rounded-full blur-3xl animate-blob" style={{ animationDelay: "3s" }} />
-        <div className="absolute top-[30%] left-[40%] w-[400px] h-[400px] bg-indigo-600/5 rounded-full blur-3xl animate-blob" style={{ animationDelay: "6s" }} />
+    <section className="relative flex items-center overflow-hidden bg-gray-950 min-h-[90vh]">
+      {/* ------------------------------------------------------------------ */}
+      {/* Background layer                                                     */}
+      {/* ------------------------------------------------------------------ */}
+
+      {/* Grid texture */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
+
+      {/* Radial highlight behind illustration */}
+      <div className="absolute right-0 top-0 w-[55%] h-full pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/8 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-cyan-500/6 rounded-full blur-2xl" />
       </div>
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:72px_72px]" />
+      {/* Subtle left accent */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-48 bg-gradient-to-b from-transparent via-blue-500 to-transparent opacity-40" />
 
-      {/* Gradient fade at bottom — shows next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent z-10" />
+      {/* Bottom gradient fade into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-950/60 to-transparent pointer-events-none z-10" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 pt-28">
-        <div className="max-w-4xl">
-          {/* Status badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass mb-8 text-sm">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse-dot" />
-            <span className="text-green-300 font-medium">Open to new opportunities</span>
-            <span className="text-gray-600">·</span>
-            <span className="text-gray-400">Nairobi, Kenya</span>
-          </div>
+      {/* ------------------------------------------------------------------ */}
+      {/* Content                                                              */}
+      {/* ------------------------------------------------------------------ */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[70vh]">
 
-          {/* Main heading */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6">
-            Hi, I'm{" "}
-            <span className="gradient-text">Kevin Manoti</span>
-            <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-400 mt-2">
-              Full Stack Engineer
-            </span>
-          </h1>
-
-          <p className="text-gray-400 text-lg sm:text-xl leading-relaxed mb-8 max-w-2xl">
-            I design and build production-grade web applications — from database schema
-            to pixel-perfect UI. Specialising in{" "}
-            <span className="text-blue-400 font-medium">Django</span>,{" "}
-            <span className="text-cyan-400 font-medium">React</span>, and{" "}
-            <span className="text-indigo-400 font-medium">PostgreSQL</span>.
-          </p>
-
-          {/* Tech stack pills */}
-          <div className="flex flex-wrap gap-2 mb-10">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-800/80 text-gray-300 border border-gray-700/60 hover:border-blue-500/50 hover:text-blue-300 transition-colors duration-200"
-              >
-                {tech}
+          {/* ---- LEFT COLUMN — Text ---- */}
+          <div className="flex flex-col justify-center order-2 lg:order-1">
+            {/* Status chip */}
+            <div className="flex items-center gap-2 mb-7 w-fit">
+              <span className="flex h-7 items-center gap-2 px-3.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse-dot" />
+                Available for opportunities
               </span>
-            ))}
-          </div>
+              <span className="text-gray-600 text-xs hidden sm:block">·  Nairobi, Kenya</span>
+            </div>
 
-          {/* CTA row */}
-          <div className="flex flex-wrap items-center gap-3 mb-12">
-            <Link to="/projects">
-              <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 hover:from-blue-500 hover:to-cyan-500 hover:shadow-blue-500/40 transition-all duration-300 active:scale-[0.98] group">
-                View My Work
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </Link>
-            <a href={resumeService.downloadUrl()} download>
-              <button className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-700 text-gray-300 text-sm font-semibold hover:border-gray-500 hover:text-white hover:bg-gray-800/50 transition-all duration-200 active:scale-[0.98]">
-                <Download size={16} /> Download CV
-              </button>
-            </a>
-            <a href="/#contact">
-              <button className="flex items-center gap-2 px-6 py-3 rounded-xl text-gray-400 text-sm font-semibold hover:text-white transition-colors duration-200">
-                Let's Talk <Mail size={16} />
-              </button>
-            </a>
-          </div>
+            {/* Main heading */}
+            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black text-white leading-[1.08] tracking-tight mb-5">
+              Hi, I'm{" "}
+              <span className="relative inline-block">
+                <span className="gradient-text">Kevin Manoti</span>
+                <svg
+                  className="absolute -bottom-2 left-0 w-full"
+                  height="6"
+                  viewBox="0 0 200 6"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0,5 Q50,0 100,4 Q150,8 200,3"
+                    stroke="url(#underlineGrad)"
+                    strokeWidth="2.5"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                  <defs>
+                    <linearGradient id="underlineGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#06b6d4" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <span className="block mt-2 text-gray-400 font-bold text-2xl sm:text-3xl xl:text-4xl tracking-normal">
+                Full Stack Engineer
+              </span>
+            </h1>
 
-          {/* Social links */}
-          <div className="flex items-center gap-3">
-            {[
-              { icon: ExternalLink, href: "https://github.com/kevinmanoti", label: "GitHub" },
-              { icon: ExternalLink, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
-              { icon: ExternalLink, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
-              { icon: Mail, href: "mailto:kevin@kevinmanoti.dev", label: "Email" },
-            ].map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="w-10 h-10 rounded-xl bg-gray-800/80 border border-gray-700/60 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-110 transition-all duration-200"
-              >
-                <Icon size={17} />
+            {/* Sub-tagline */}
+            <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-7 max-w-lg">
+              I design and ship production-grade web applications — clean APIs,
+              robust backends, and polished frontends. Specialising in{" "}
+              <span className="text-blue-400 font-semibold">Django</span>,{" "}
+              <span className="text-cyan-400 font-semibold">React</span> &{" "}
+              <span className="text-indigo-400 font-semibold">PostgreSQL</span>.
+            </p>
+
+            {/* Tech pill stack */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {techStack.map((tech) => (
+                <span
+                  key={tech.label}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${tech.color} transition-all duration-200 hover:scale-105`}
+                >
+                  {tech.label}
+                </span>
+              ))}
+            </div>
+
+            {/* CTA buttons */}
+            <div className="flex flex-wrap gap-3 mb-8">
+              <Link to="/projects">
+                <button className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-bold shadow-xl shadow-blue-600/25 hover:shadow-blue-500/40 hover:scale-[1.02] transition-all duration-300 active:scale-[0.98]">
+                  View My Work
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
+                </button>
+              </Link>
+              <a href={resumeService.downloadUrl()} download>
+                <button className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-700 bg-gray-900/60 text-gray-200 text-sm font-bold hover:border-gray-500 hover:bg-gray-800/80 hover:text-white transition-all duration-200 active:scale-[0.98]">
+                  <Download size={15} /> Download CV
+                </button>
               </a>
-            ))}
-            <span className="ml-2 text-sm text-gray-600">Find me online</span>
+            </div>
+
+            {/* Social row */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-600 mr-1 font-medium">Find me on</span>
+              {[
+                { icon: Github, href: "https://github.com/kevinmanoti", label: "GitHub" },
+                { icon: Linkedin, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
+                { icon: Twitter, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
+                { icon: Mail, href: "mailto:kevin@kevinmanoti.dev", label: "Email" },
+              ].map(({ icon: Icon, href, label }) => (
+                
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-xl bg-gray-800/80 border border-gray-700/50 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-110 transition-all duration-200"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* ---- RIGHT COLUMN — Illustration ---- */}
+          <div className="order-1 lg:order-2 flex items-center justify-center lg:justify-end relative">
+            {/* Decorative rings behind illustration */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[380px] h-[380px] rounded-full border border-blue-500/8" />
+              <div className="absolute w-[460px] h-[460px] rounded-full border border-blue-500/5" />
+              <div className="absolute w-[540px] h-[540px] rounded-full border border-blue-500/3" />
+            </div>
+
+            {/* Illustration container */}
+            <div className="relative w-full max-w-[520px] lg:max-w-none lg:w-[110%]">
+              <DeveloperIllustration />
+
+              {/* Floating stat cards */}
+              <div className="absolute -left-4 top-8 bg-gray-900/95 backdrop-blur-sm border border-gray-800 rounded-2xl px-4 py-3 shadow-xl hidden sm:block">
+                <p className="text-2xl font-black text-white">5+</p>
+                <p className="text-xs text-gray-400 font-medium">Years Experience</p>
+              </div>
+
+              <div className="absolute -right-2 bottom-16 bg-gray-900/95 backdrop-blur-sm border border-green-800/50 rounded-2xl px-4 py-3 shadow-xl hidden sm:block">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse-dot" />
+                  <span className="text-xs text-green-400 font-bold">BUILD PASSING</span>
+                </div>
+                <p className="text-xs text-gray-400 font-medium">main · 94% coverage</p>
+              </div>
+
+              <div className="absolute right-8 top-4 bg-gray-900/95 backdrop-blur-sm border border-blue-800/50 rounded-xl px-3 py-2 shadow-xl hidden md:block">
+                <p className="text-xs text-blue-400 font-bold">30+ Projects</p>
+                <p className="text-xs text-gray-500">shipped to production</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-gray-600 z-20">
-          <div className="w-5 h-8 rounded-full border-2 border-gray-700 flex items-start justify-center pt-1.5">
-            <div className="w-1 h-1.5 rounded-full bg-gray-500 animate-bounce" />
-          </div>
+        {/* ---- Scroll indicator at bottom ---- */}
+        <div className="flex justify-center mt-4 lg:mt-0">
+          
+            href="#about"
+            className="flex flex-col items-center gap-2 text-gray-600 hover:text-gray-400 transition-colors duration-200 group"
+          >
+            <span className="text-xs font-medium tracking-widest uppercase">
+              Scroll to explore
+            </span>
+            <div className="w-6 h-10 rounded-full border-2 border-gray-700 flex items-start justify-center pt-2 group-hover:border-gray-500 transition-colors">
+              <div className="w-1 h-2 rounded-full bg-gray-500 group-hover:bg-gray-400 animate-bounce transition-colors" />
+            </div>
+          </a>
         </div>
       </div>
     </section>
