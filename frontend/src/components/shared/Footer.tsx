@@ -1,66 +1,105 @@
 import { Link } from "react-router-dom";
+import { Github, Linkedin, Twitter, Mail, ArrowUpRight } from "lucide-react";
 
 const SOCIAL_LINKS = [
-  { href: "https://github.com/Manoty", label: "GitHub" },
-  { href: "https://www.linkedin.com/in/kevin-manoti-394933233/", label: "LinkedIn" },
-  { href: "https://twitter.com/yourhandle", label: "Twitter" },
-  { href: "mailto:kevinnoty21@gmail.com", label: "Email" },
+  { icon: Github, href: "https://github.com/kevinmanoti", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
+  { icon: Mail, href: "mailto:kevin@kevinmanoti.dev", label: "Email" },
 ];
 
-const FOOTER_LINKS = [
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/testimonials", label: "Testimonials" },
+const FOOTER_SECTIONS = [
+  {
+    title: "Navigation",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/projects", label: "Projects" },
+      { href: "/blog", label: "Blog" },
+      { href: "/testimonials", label: "Testimonials" },
+    ],
+  },
+  {
+    title: "Work",
+    links: [
+      { href: "/#about", label: "About Me" },
+      { href: "/#skills", label: "Skills" },
+      { href: "/#experience", label: "Experience" },
+      { href: "/#contact", label: "Contact" },
+    ],
+  },
 ];
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-950 text-gray-400">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <div>
-            <Link to="/" className="text-xl font-bold text-white">
-              {"<Kevin Manoti />"}
+    <footer className="bg-gray-950 text-gray-400 relative overflow-hidden">
+      {/* Subtle top gradient */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+          {/* Brand column */}
+          <div className="md:col-span-2">
+            <Link to="/" className="flex items-center gap-2 mb-4 group w-fit">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform">
+                K
+              </div>
+              <span className="text-white font-bold text-lg">Kevin Manoti</span>
             </Link>
-            <p className="text-sm mt-1">Building things for the web.</p>
+            <p className="text-sm leading-relaxed max-w-xs text-gray-500">
+              Full Stack Engineer specializing in Django, React, and PostgreSQL.
+              Building production-grade applications with clean architecture and great UX.
+            </p>
+            <div className="flex items-center gap-2 mt-6">
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+                
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-200 hover:scale-110"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Nav links */}
-          <div className="flex items-center gap-6">
-            {FOOTER_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-sm hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Social */}
-          <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="p-2 rounded-lg hover:text-white hover:bg-gray-800 transition-colors"
-              >
-                <span className="sr-only">{label}</span>
-                <span aria-hidden>{label}</span>
-              </a>
-            ))}
-          </div>
+          {/* Link columns */}
+          {FOOTER_SECTIONS.map((section) => (
+            <div key={section.title}>
+              <h4 className="text-white font-semibold text-sm mb-4">{section.title}</h4>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="text-sm text-gray-500 hover:text-white transition-colors duration-200 flex items-center gap-1 group"
+                    >
+                      {link.label}
+                      <ArrowUpRight
+                        size={12}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-          © {year} Kevin Manoti. Built with React + Django.
+        {/* Bottom bar */}
+        <div className="border-t border-gray-800/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-600">
+            © {year} Kevin Manoti. Built with React + Django. Deployed on a single VPS.
+          </p>
+          <div className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse-dot" />
+            <span className="text-xs text-gray-600">Available for opportunities</span>
+          </div>
         </div>
       </div>
     </footer>
