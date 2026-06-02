@@ -43,7 +43,7 @@ export default function AdminLayout() {
         {/* Logo + toggle */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800">
           {sidebarOpen && (
-            <span className="text-white font-bold text-lg truncate">Portfolio CMS</span>
+            <span className="text-white font-bold text-lg truncate">KM · Portfolio CMS</span>
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}

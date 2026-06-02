@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, Github, Linkedin, Twitter,
-  Mail, MapPin, Download, Send, CheckCircle,
+  ArrowRight, Mail, MapPin, Download, Send, CheckCircle,
   ExternalLink, Code2, Server, Database,
 } from "lucide-react";
 import { projectsService } from "@/services/projects.service";
@@ -11,7 +10,6 @@ import { testimonialsService } from "@/services/testimonials.service";
 import { contactService } from "@/services/contact.service";
 import { resumeService } from "@/services/resume.service";
 import type { ProjectSummary, PostSummary, Testimonial, Skill, Experience } from "@/types";
-import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import { SkeletonCard } from "@/components/ui/Spinner";
 import { formatDate, formatDateShort, cn } from "@/lib/utils";
@@ -99,12 +97,12 @@ function HeroSection() {
           {/* Social links */}
           <div className="flex items-center gap-3">
             {[
-              { icon: Github, href: "https://github.com/kevinmanoti", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
-              { icon: Twitter, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
+              { icon: ExternalLink, href: "https://github.com/kevinmanoti", label: "GitHub" },
+              { icon: ExternalLink, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
+              { icon: ExternalLink, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
               { icon: Mail, href: "mailto:kevin@kevinmanoti.dev", label: "Email" },
             ].map(({ icon: Icon, href, label }) => (
-              
+              <a
                 key={label}
                 href={href}
                 target="_blank"
@@ -724,10 +722,10 @@ function ContactSection() {
             <div className="space-y-4">
               {[
                 { icon: Mail, label: "kevin@kevinmanoti.dev", href: "mailto:kevin@kevinmanoti.dev", color: "bg-blue-100 text-blue-600" },
-                { icon: Linkedin, label: "linkedin.com/in/kevinmanoti", href: "https://linkedin.com", color: "bg-indigo-100 text-indigo-600" },
-                { icon: Github, label: "github.com/kevinmanoti", href: "https://github.com", color: "bg-gray-100 text-gray-700" },
+                { icon: ExternalLink, label: "linkedin.com/in/kevinmanoti", href: "https://linkedin.com", color: "bg-indigo-100 text-indigo-600" },
+                { icon: ExternalLink, label: "github.com/kevinmanoti", href: "https://github.com", color: "bg-gray-100 text-gray-700" },
               ].map(({ icon: Icon, label, href, color }) => (
-                
+                <a
                   key={label}
                   href={href}
                   target="_blank"
