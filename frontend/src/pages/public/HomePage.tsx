@@ -980,6 +980,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <TransitionBridge />
       <AboutSection />
       <FeaturedProjectsSection projects={featuredProjects} loading={projectsLoading} />
       <SkillsSection skills={skills} />
