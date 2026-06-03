@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Search, Star, ArrowRight, X } from "lucide-react";
 import { projectsService } from "@/services/projects.service";
-import type { ProjectSummary, Technology, ProjectCategory } from "@/types";
+import type { ProjectSummary, Technology } from "@/types";
 import { PROJECT_CATEGORIES } from "@/types";
 import CategoryBadge from "@/components/ui/CategoryBadge";
 import Pagination from "@/components/ui/Pagination";

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, GitHub, Linkedin, Twitter,
-  Mail, MapPin, Download, Send, CheckCircle,
+  ArrowRight, Mail, MapPin, Download, Send, CheckCircle,
   ExternalLink, Code2, Server, Database,
 } from "lucide-react";
 import { projectsService } from "@/services/projects.service";
@@ -12,7 +11,6 @@ import { contactService }   from "@/services/contact.service";
 import { resumeService }    from "@/services/resume.service";
 import { useSettingsStore } from "@/store/settings.store";
 import type { ProjectSummary, PostSummary, Testimonial, Skill, Experience } from "@/types";
-import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import CategoryBadge from "@/components/ui/CategoryBadge";
 import { SkeletonCard } from "@/components/ui/Spinner";
@@ -114,10 +112,10 @@ function HeroSection() {
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-600 mr-1 font-medium">Find me on</span>
               {[
-                { icon: Github,   href: settings.github_url,   label: "GitHub"   },
-                { icon: Linkedin, href: settings.linkedin_url, label: "LinkedIn" },
-                { icon: Twitter,  href: settings.twitter_url,  label: "Twitter"  },
-                { icon: Mail,     href: `mailto:${settings.email}`, label: "Email" },
+                { icon: ExternalLink, href: settings.github_url,   label: "GitHub"   },
+                { icon: ExternalLink, href: settings.linkedin_url, label: "LinkedIn" },
+                { icon: ExternalLink, href: settings.twitter_url,  label: "Twitter"  },
+                { icon: Mail,          href: `mailto:${settings.email}`, label: "Email" },
               ].filter((s) => s.href).map(({ icon: Icon, href, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                   className="w-9 h-9 rounded-xl bg-gray-800/80 border border-gray-700/50 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-110 transition-all duration-200">
@@ -643,9 +641,9 @@ function ContactSection() {
   const inputClass = "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200";
 
   const contactLinks = [
-    { icon: Mail,     label: settings.email,    href: `mailto:${settings.email}`,    color: "bg-blue-100 text-blue-600"   },
-    { icon: Linkedin, label: "LinkedIn Profile", href: settings.linkedin_url,         color: "bg-indigo-100 text-indigo-600" },
-    { icon: Github,   label: "GitHub Profile",   href: settings.github_url,           color: "bg-gray-100 text-gray-700"   },
+    { icon: Mail,         label: settings.email,    href: `mailto:${settings.email}`,    color: "bg-blue-100 text-blue-600"   },
+    { icon: ExternalLink, label: "LinkedIn Profile", href: settings.linkedin_url,         color: "bg-indigo-100 text-indigo-600" },
+    { icon: ExternalLink, label: "GitHub Profile",   href: settings.github_url,           color: "bg-gray-100 text-gray-700"   },
   ].filter((l) => l.href);
 
   return (

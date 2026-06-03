@@ -20,14 +20,16 @@ const CATEGORY_OPTIONS = [
   { value: "Other",      label: "Other"      },
 ];
 
-const EMPTY_FORM = { name: "", category: "Languages", proficiency: 3, icon_url: "", order: 0 };
+type SkillForm = Omit<Skill, "id">;
+
+const EMPTY_FORM: SkillForm = { name: "", category: "Languages", proficiency: 3, icon_url: "", order: 0 };
 
 export default function AdminSkillsPage() {
   const [skills, setSkills]             = useState<Skill[]>([]);
   const [loading, setLoading]           = useState(true);
   const [modalOpen, setModalOpen]       = useState(false);
   const [editing, setEditing]           = useState<Skill | null>(null);
-  const [form, setForm]                 = useState(EMPTY_FORM);
+  const [form, setForm]                 = useState<SkillForm>(EMPTY_FORM);
   const [saving, setSaving]             = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Skill | null>(null);
   const [deleting, setDeleting]         = useState(false);
@@ -82,7 +84,7 @@ export default function AdminSkillsPage() {
     }
   };
 
-  const set = (field: string, value: unknown) =>
+  const set = (field: keyof SkillForm, value: SkillForm[keyof SkillForm]) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
   if (loading) return <PageSpinner />;

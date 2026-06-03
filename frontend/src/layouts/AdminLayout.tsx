@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { Settings, Code2, Briefcase, Cpu } from "lucide-react";
 
 const NAV_ITEMS = [
   { to: "/admin",            icon: LayoutDashboard, label: "Dashboard",    exact: true },
@@ -16,6 +17,10 @@ const NAV_ITEMS = [
   { to: "/admin/testimonials", icon: Star,           label: "Testimonials" },
   { to: "/admin/analytics",  icon: BarChart2,        label: "Analytics" },
   { to: "/admin/profile",    icon: User,             label: "Profile" },
+  { to: "/admin/technologies", icon: Code2,      label: "Technologies" },
+  { to: "/admin/experience",   icon: Briefcase,  label: "Experience"   },
+  { to: "/admin/skills",       icon: Cpu,        label: "Skills"       },
+  { to: "/admin/settings",     icon: Settings,   label: "Site Settings" },
 ];
 
 export default function AdminLayout() {

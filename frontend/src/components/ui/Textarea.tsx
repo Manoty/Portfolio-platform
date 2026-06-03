@@ -4,10 +4,11 @@ import { cn } from "@/lib/utils";
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
+  hint?: string;
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, className, id, ...props }, ref) => {
+  ({ label, error, hint, className, id, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
 
     return (
@@ -32,6 +33,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
           {...props}
         />
+        {hint && !error && <p className="text-xs text-gray-500">{hint}</p>}
         {error && <p className="text-xs text-red-600">{error}</p>}
       </div>
     );

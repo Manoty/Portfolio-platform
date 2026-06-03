@@ -3,7 +3,7 @@ import { Plus, Pencil, Trash2 } from "lucide-react";
 import { projectsService } from "@/services/projects.service";
 import type { Technology } from "@/types";
 import Button from "@/components/ui/Button";
-import Card, { CardBody, CardHeader } from "@/components/ui/Card";
+import Card from "@/components/ui/Card";
 import Modal, { ConfirmModal } from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import { PageSpinner } from "@/components/ui/Spinner";

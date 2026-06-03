@@ -32,6 +32,10 @@ import AdminResumePage from "@/pages/admin/ResumePage";
 import AdminTestimonialsPage from "@/pages/admin/TestimonialsPage";
 import AdminAnalyticsPage from "@/pages/admin/AnalyticsPage";
 import AdminProfilePage from "@/pages/admin/ProfilePage";
+import AdminTechnologiesPage  from "@/pages/admin/TechnologiesPage";
+import AdminExperiencePage    from "@/pages/admin/ExperiencePage";
+import AdminSkillsPage        from "@/pages/admin/SkillsPage";
+import AdminSiteSettingsPage  from "@/pages/admin/SiteSettingsPage";
 
 // Guards
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
@@ -94,6 +98,10 @@ function AppRoutes() {
         <Route path="testimonials"            element={<AdminTestimonialsPage />} />
         <Route path="analytics"               element={<AdminAnalyticsPage />} />
         <Route path="profile"                 element={<AdminProfilePage />} />
+        <Route path="technologies"            element={<AdminTechnologiesPage />} />
+        <Route path="experience"              element={<AdminExperiencePage />}   />
+        <Route path="skills"                  element={<AdminSkillsPage />}       />
+        <Route path="settings"                element={<AdminSiteSettingsPage />} />
       </Route>
     </Routes>
   );

@@ -9,7 +9,7 @@ import Button from "@/components/ui/Button";
 import { PageSpinner } from "@/components/ui/Spinner";
 
 export default function AdminSiteSettingsPage() {
-  const { settings, update } = useSettingsStore();
+  const { update } = useSettingsStore();
   const [form, setForm]       = useState<Partial<SiteSettings>>({});
   const [loaded, setLoaded]   = useState(false);
   const [saving, setSaving]   = useState(false);
