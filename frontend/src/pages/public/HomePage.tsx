@@ -14,7 +14,7 @@ import Badge from "@/components/ui/Badge";
 import { SkeletonCard } from "@/components/ui/Spinner";
 import { formatDate, formatDateShort, cn } from "@/lib/utils";
 import DeveloperIllustration from "@/components/shared/DeveloperIllustration";
-import CategoryBadge from "@/components/shared/CategoryBadge";
+import CategoryBadge from "@/components/ui/CategoryBadge";
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------

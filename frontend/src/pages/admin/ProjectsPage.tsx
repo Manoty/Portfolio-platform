@@ -12,6 +12,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import Pagination from "@/components/ui/Pagination";
 import { usePagination } from "@/hooks/usePagination";
 import { formatDate } from "@/lib/utils";
+import CategoryBadge from "@/components/ui/CategoryBadge";
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<ProjectSummary[]>([]);
@@ -93,6 +94,7 @@ export default function AdminProjectsPage() {
                   <th className="px-6 py-3 font-medium text-gray-500">Status</th>
                   <th className="px-6 py-3 font-medium text-gray-500">Featured</th>
                   <th className="px-6 py-3 font-medium text-gray-500">Created</th>
+                  <th className="px-6 py-3 font-medium text-gray-500">Category</th>
                   <th className="px-6 py-3 font-medium text-gray-500 text-right">Actions</th>
                 </tr>
               </thead>
@@ -142,6 +144,9 @@ export default function AdminProjectsPage() {
                     </td>
                     <td className="px-6 py-4 text-gray-500">
                       {formatDate(project.created_at)}
+                    </td>
+                    <td className="px-6 py-4">
+                      <CategoryBadge category={project.category} />
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-1 justify-end">

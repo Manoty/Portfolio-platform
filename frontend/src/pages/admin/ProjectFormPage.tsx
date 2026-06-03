@@ -8,7 +8,9 @@ import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Select from "@/components/ui/Select";
 import { PageSpinner } from "@/components/ui/Spinner";
+
 import Card, { CardBody, CardHeader } from "@/components/ui/Card";
+import { PROJECT_CATEGORIES } from "@/types";
 
 const STATUS_OPTIONS = [
   { value: "draft", label: "Draft" },
@@ -37,6 +39,7 @@ export default function AdminProjectFormPage() {
     is_featured: false,
     project_start: "",
     project_end: "",
+    category: "full_stack",
     technology_ids: [] as number[],
   });
 
@@ -57,6 +60,7 @@ export default function AdminProjectFormPage() {
           is_featured: project.is_featured,
           project_start: project.project_start ?? "",
           project_end: project.project_end ?? "",
+          category: project.category,
           technology_ids: project.technologies.map((t) => t.id),
         });
         if (project.cover_image) setCoverPreview(project.cover_image);
@@ -250,6 +254,15 @@ export default function AdminProjectFormPage() {
                   value={form.status}
                   onChange={(e) => set("status", e.target.value)}
                   options={STATUS_OPTIONS}
+                />
+                <Select
+                  label="Category"
+                  value={form.category}
+                  onChange={(e) => set("category", e.target.value)}
+                  options={PROJECT_CATEGORIES.map((c) => ({
+                    value: c.value,
+                    label: c.label,
+                  }))}
                 />
                 <label className="flex items-center gap-3 cursor-pointer">
                   <div
