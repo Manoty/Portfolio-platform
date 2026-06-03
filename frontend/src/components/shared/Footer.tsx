@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, ArrowUpRight, ExternalLink } from "lucide-react";
+import { useSettingsStore } from "@/store/settings.store";
 
 const SOCIAL_LINKS = [
   { icon: ExternalLink, href: "https://github.com/kevinmanoti", label: "GitHub" },
@@ -30,6 +31,7 @@ const FOOTER_SECTIONS = [
 ];
 
 export default function Footer() {
+  const { settings } = useSettingsStore();
   const year = new Date().getFullYear();
 
   return (
@@ -45,10 +47,10 @@ export default function Footer() {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform">
                 K
               </div>
-              <span className="text-white font-bold text-lg">Kevin Manoti</span>
+              <span className="text-white font-bold text-lg">{settings.full_name}</span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs text-gray-500">
-              Full Stack Engineer specializing in Django, React, and PostgreSQL.
+              {settings.tagline} specializing in Django, React, and PostgreSQL.
               Building production-grade applications with clean architecture and great UX.
             </p>
             <div className="flex items-center gap-2 mt-6">

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Download, ArrowRight, Code2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { resumeService } from "@/services/resume.service";
+import { useSettingsStore } from "@/store/settings.store";
 
 const NAV_LINKS = [
   { href: "/#about",       label: "About" },
@@ -12,10 +13,13 @@ const NAV_LINKS = [
   { href: "/#contact",     label: "Contact" },
 ];
 
+
+
 export default function Navbar() {
   const [isOpen, setIsOpen]     = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { settings } = useSettingsStore();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
@@ -55,13 +59,13 @@ export default function Navbar() {
                 "font-black text-sm tracking-tight transition-colors duration-300",
                 scrolled ? "text-gray-900" : "text-white"
               )}>
-                Kevin Manoti
+                {settings.full_name}
               </span>
               <span className={cn(
                 "text-[10px] font-semibold tracking-widest uppercase transition-colors duration-300",
                 scrolled ? "text-blue-600" : "text-blue-400"
               )}>
-                Full Stack Eng.
+                {settings.tagline}
               </span>
             </div>
           </Link>
