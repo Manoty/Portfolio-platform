@@ -246,3 +246,29 @@ export interface MessageQueryParams {
   status?: "unread" | "read" | "archived";
   page?: number;
 }
+
+// ---------------------------------------------------------------------------
+// Site Settings — from /api/core/settings/
+// ---------------------------------------------------------------------------
+export interface SiteSettings {
+  full_name: string;
+  tagline: string;
+  bio_short: string;
+  bio_long: string;
+  bio_long_2: string;
+  location: string;
+  open_to_work: boolean;
+  availability_text: string;
+  email: string;
+  github_url: string;
+  linkedin_url: string;
+  twitter_url: string;
+  website_url: string;
+  stat_experience: string;
+  stat_projects: string;
+  stat_technologies: string;
+  stat_open_source: string;
+  meta_description: string;
+  profile_image: string | null;
+  updated_at: string;
+}
