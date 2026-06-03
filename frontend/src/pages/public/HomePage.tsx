@@ -14,6 +14,7 @@ import Badge from "@/components/ui/Badge";
 import { SkeletonCard } from "@/components/ui/Spinner";
 import { formatDate, formatDateShort, cn } from "@/lib/utils";
 import DeveloperIllustration from "@/components/shared/DeveloperIllustration";
+import CategoryBadge from "@/components/shared/CategoryBadge";
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -447,7 +448,18 @@ function FeaturedProjectsSection({ projects, loading }: { projects: ProjectSumma
                   </div>
 
                   {/* Content */}
+              
                   <div className="p-5">
+                    {/* Category + featured row */}
+                    <div className="flex items-center justify-between mb-2">
+                      <CategoryBadge category={project.category} />
+                      {project.is_featured && (
+                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400/90 text-yellow-900 text-xs font-bold">
+                          ★ Featured
+                        </span>
+                      )}
+                    </div>
+
                     <h3 className="font-bold text-gray-900 text-lg mb-1.5 group-hover:text-blue-600 transition-colors duration-200">
                       {project.title}
                     </h3>
