@@ -26,6 +26,15 @@ export interface Technology {
   color: string;
 }
 
+export const PROJECT_CATEGORIES = [
+  { value: "frontend",         label: "Frontend" },
+  { value: "backend",          label: "Backend" },
+  { value: "full_stack",       label: "Full Stack" },
+  { value: "data_engineering", label: "Data Engineering" },
+] as const;
+
+export type ProjectCategory = typeof PROJECT_CATEGORIES[number]["value"];
+
 export interface ProjectImage {
   id: number;
   image: string;
@@ -44,6 +53,7 @@ export interface Project {
   github_url: string;
   live_url: string;
   technologies: Technology[];
+  category: ProjectCategory;
   images: ProjectImage[];
   status: "draft" | "published";
   is_featured: boolean;
@@ -62,6 +72,7 @@ export interface ProjectSummary {
   summary: string;
   cover_image: string | null;
   technologies: Technology[];
+  category: ProjectCategory;
   status: "draft" | "published";
   is_featured: boolean;
   project_start: string | null;
@@ -216,6 +227,7 @@ export interface PaginatedResponse<T> {
 export interface ProjectQueryParams {
   search?: string;
   technology?: string;
+  category?: string;
   ordering?: "latest" | "oldest" | "featured";
   page?: number;
   all?: boolean;

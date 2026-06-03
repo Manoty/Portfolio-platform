@@ -138,12 +138,12 @@ function HeroSection() {
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-600 mr-1 font-medium">Find me on</span>
               {[
-                { icon: Github, href: "https://github.com/kevinmanoti", label: "GitHub" },
-                { icon: Linkedin, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
-                { icon: Twitter, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
+                { icon: ExternalLink, href: "https://github.com/kevinmanoti", label: "GitHub" },
+                { icon: ExternalLink, href: "https://linkedin.com/in/kevinmanoti", label: "LinkedIn" },
+                { icon: ExternalLink, href: "https://twitter.com/kevinmanoti", label: "Twitter" },
                 { icon: Mail, href: "mailto:kevin@kevinmanoti.dev", label: "Email" },
               ].map(({ icon: Icon, href, label }) => (
-                
+                <a
                   key={label}
                   href={href}
                   target="_blank"
@@ -194,7 +194,7 @@ function HeroSection() {
 
         {/* ---- Scroll indicator at bottom ---- */}
         <div className="flex justify-center mt-4 lg:mt-0">
-          
+          <a
             href="#about"
             className="flex flex-col items-center gap-2 text-gray-600 hover:text-gray-400 transition-colors duration-200 group"
           >

@@ -19,6 +19,10 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    console.log("SUBMIT clicked");
+    console.log(form);
+
     setError("");
     try {
       await login(form.email, form.password);
