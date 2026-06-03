@@ -28,35 +28,54 @@ class Technology(models.Model):
 
 class Project(models.Model):
     class Status(models.TextChoices):
-        DRAFT = "draft", "Draft"
+        DRAFT     = "draft",     "Draft"
         PUBLISHED = "published", "Published"
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True, blank=True)
-    summary = models.CharField(max_length=500, help_text="Short description for cards")
-    description = models.TextField(help_text="Rich text JSON from Tiptap")
-    cover_image = models.ImageField(upload_to="projects/covers/", blank=True, null=True)
+    # ----- NEW -----
+    class Category(models.TextChoices):
+        FRONTEND         = "frontend",         "Frontend"
+        BACKEND          = "backend",          "Backend"
+        FULL_STACK       = "full_stack",       "Full Stack"
+        DATA_ENGINEERING = "data_engineering", "Data Engineering"
+    # ---------------
+
+    id                   = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title                = models.CharField(max_length=200)
+    slug                 = models.SlugField(max_length=200, unique=True, blank=True)
+    summary              = models.CharField(max_length=500)
+    description          = models.TextField()
+    cover_image          = models.ImageField(upload_to="projects/covers/",  blank=True, null=True)
     architecture_diagram = models.ImageField(upload_to="projects/diagrams/", blank=True, null=True)
-    github_url = models.URLField(max_length=500, blank=True)
-    live_url = models.URLField(max_length=500, blank=True)
-    technologies = models.ManyToManyField(Technology, blank=True, related_name="projects")
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
-    is_featured = models.BooleanField(default=False)
+    github_url           = models.URLField(max_length=500, blank=True)
+    live_url             = models.URLField(max_length=500, blank=True)
+    technologies         = models.ManyToManyField(Technology, blank=True, related_name="projects")
+
+    # ----- NEW -----
+    category = models.CharField(
+        max_length=30,
+        choices=Category.choices,
+        default=Category.FULL_STACK,
+        db_index=True,
+    )
+    # ---------------
+
+    status       = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
+    is_featured  = models.BooleanField(default=False)
     project_start = models.DateField(blank=True, null=True)
-    project_end = models.DateField(blank=True, null=True)
-    view_count = models.PositiveIntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    project_end   = models.DateField(blank=True, null=True)
+    view_count   = models.PositiveIntegerField(default=0)
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "portfolio_project"
         ordering = ["-created_at"]
-        indexes = [
+        indexes  = [
             models.Index(fields=["slug"]),
             models.Index(fields=["status"]),
             models.Index(fields=["is_featured"]),
             models.Index(fields=["-created_at"]),
+            models.Index(fields=["category"]),   # new index
         ]
 
     def save(self, *args, **kwargs):
@@ -70,9 +89,9 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="projects/gallery/")
+    image   = models.ImageField(upload_to="projects/gallery/")
     caption = models.CharField(max_length=200, blank=True)
-    order = models.PositiveIntegerField(default=0)
+    order   = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = "portfolio_projectimage"
@@ -84,20 +103,18 @@ class ProjectImage(models.Model):
 
 class Skill(models.Model):
     class Category(models.TextChoices):
-        LANGUAGES = "Languages", "Languages"
+        LANGUAGES  = "Languages",  "Languages"
         FRAMEWORKS = "Frameworks", "Frameworks"
-        DATABASES = "Databases", "Databases"
-        TOOLS = "Tools", "Tools"
-        DEVOPS = "DevOps", "DevOps"
-        OTHER = "Other", "Other"
+        DATABASES  = "Databases",  "Databases"
+        TOOLS      = "Tools",      "Tools"
+        DEVOPS     = "DevOps",     "DevOps"
+        OTHER      = "Other",      "Other"
 
-    name = models.CharField(max_length=100)
-    category = models.CharField(max_length=50, choices=Category.choices)
-    proficiency = models.PositiveSmallIntegerField(
-        default=3, help_text="1 (beginner) to 5 (expert)"
-    )
-    icon_url = models.URLField(max_length=500, blank=True)
-    order = models.PositiveIntegerField(default=0)
+    name        = models.CharField(max_length=100)
+    category    = models.CharField(max_length=50, choices=Category.choices)
+    proficiency = models.PositiveSmallIntegerField(default=3)
+    icon_url    = models.URLField(max_length=500, blank=True)
+    order       = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = "portfolio_skill"
@@ -108,14 +125,14 @@ class Skill(models.Model):
 
 
 class Experience(models.Model):
-    company = models.CharField(max_length=200)
-    role = models.CharField(max_length=200)
-    location = models.CharField(max_length=200, blank=True)
-    start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True, help_text="Leave blank if current")
+    company     = models.CharField(max_length=200)
+    role        = models.CharField(max_length=200)
+    location    = models.CharField(max_length=200, blank=True)
+    start_date  = models.DateField()
+    end_date    = models.DateField(blank=True, null=True)
     description = models.TextField()
-    is_current = models.BooleanField(default=False)
-    order = models.PositiveIntegerField(default=0)
+    is_current  = models.BooleanField(default=False)
+    order       = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = "portfolio_experience"

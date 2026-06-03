@@ -47,6 +47,7 @@ def _clear_auth_cookies(response):
 # ---------------------------------------------------------------------------
 
 class LoginView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
