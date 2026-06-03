@@ -63,6 +63,18 @@ export const projectsService = {
     return data;
   },
 
+  updateTechnology: async (id: number, payload: Partial<Technology>) => {
+    const { data } = await apiClient.patch<Technology>(
+      `/projects/meta/technologies/${id}/`,
+      payload
+    );
+    return data;
+  },
+
+  deleteTechnology: async (id: number) => {
+    await apiClient.delete(`/projects/meta/technologies/${id}/`);
+  },
+
   getSkills: async () => {
     const { data } = await apiClient.get<Skill[]>("/projects/meta/skills/");
     return data;
