@@ -36,14 +36,18 @@ import AdminProfilePage from "@/pages/admin/ProfilePage";
 // Guards
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
 
+import { useSettingsStore } from "@/store/settings.store";
+
 // Page tracking lives inside BrowserRouter — needs useLocation
 function AppRoutes() {
   usePageTracking();
   const { fetchMe } = useAuth();
+  const fetchSettings = useSettingsStore((s) => s.fetch);
 
   useEffect(() => {
     // On app mount try to restore session from cookie
     fetchMe();
+    fetchSettings();
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
