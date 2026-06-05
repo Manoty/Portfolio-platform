@@ -179,6 +179,10 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 ADMIN_EMAIL = config("ADMIN_EMAIL", default="")
 
+
+DJANGO_SETTINGS_MODULE = config.settings
+python_files = tests.py test_*.py *_tests.py
+
 # =============================================================================
 # SECURITY HEADERS (applied in production — defined here as defaults)
 # =============================================================================
