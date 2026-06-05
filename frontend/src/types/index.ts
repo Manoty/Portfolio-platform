@@ -264,6 +264,7 @@ export interface SiteSettings {
   linkedin_url: string;
   twitter_url: string;
   website_url: string;
+  github_username: string;
   stat_experience: string;
   stat_projects: string;
   stat_technologies: string;

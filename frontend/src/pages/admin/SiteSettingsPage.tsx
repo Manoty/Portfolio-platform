@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { settingsService } from "@/services/settings.service";
+import { githubService } from "@/services/github.service";
 import { useSettingsStore } from "@/store/settings.store";
-import type { SiteSettings } from "@/types";
+import type { GitHubValidateResponse, SiteSettings } from "@/types";
 import Card, { CardBody, CardHeader } from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
 import { PageSpinner } from "@/components/ui/Spinner";
+import { AlertCircle, CheckCircle, ExternalLink, Info } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AdminSiteSettingsPage() {
   const { update } = useSettingsStore();
@@ -14,6 +18,8 @@ export default function AdminSiteSettingsPage() {
   const [loaded, setLoaded]   = useState(false);
   const [saving, setSaving]   = useState(false);
   const [saved, setSaved]     = useState(false);
+  const [validating, setValidating] = useState(false);
+  const [githubValidation, setGithubValidation] = useState<GitHubValidateResponse | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -33,6 +39,27 @@ export default function AdminSiteSettingsPage() {
     if (!file) return;
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
+  };
+
+  const handleValidateGitHub = async () => {
+    const username = form.github_username?.trim();
+    if (!username) return;
+
+    setValidating(true);
+    setGithubValidation(null);
+
+    try {
+      const result = await githubService.validateUsername(username);
+      setGithubValidation(result);
+    } catch (error) {
+      setGithubValidation({
+        valid: false,
+        username,
+        error_message: "Unable to validate GitHub username. Please try again.",
+      });
+    } finally {
+      setValidating(false);
+    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -145,6 +172,76 @@ export default function AdminSiteSettingsPage() {
           </CardBody>
         </Card>
 
+        {/* GitHub Integration */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <h2 className="font-semibold text-gray-900">GitHub Integration</h2>
+              <Link
+                to="/admin/github-import"
+                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700"
+              >
+                <ExternalLink size={14} /> Import Repositories
+              </Link>
+            </div>
+          </CardHeader>
+          <CardBody className="space-y-4">
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <Input
+                  label="GitHub Username"
+                  value={String(form.github_username ?? "")}
+                  onChange={(e) => set("github_username", e.target.value)}
+                  placeholder="your-github-username"
+                  hint="Used to fetch your repositories for project import"
+                />
+              </div>
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={handleValidateGitHub}
+                  disabled={validating || !form.github_username}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  {validating ? (
+                    <span className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <CheckCircle size={15} />
+                  )}
+                  Validate
+                </button>
+              </div>
+            </div>
+
+            {/* Validation feedback */}
+            {githubValidation && (
+              <div className={cn(
+                "flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium",
+                githubValidation.valid
+                  ? "bg-green-50 border border-green-200 text-green-700"
+                  : "bg-red-50 border border-red-200 text-red-700"
+              )}>
+                {githubValidation.valid ? (
+                  <CheckCircle size={15} className="shrink-0" />
+                ) : (
+                  <AlertCircle size={15} className="shrink-0" />
+                )}
+                {githubValidation.valid
+                  ? githubValidation.message
+                  : githubValidation.error_message}
+              </div>
+            )}
+
+            <div className="flex items-center gap-3 p-3 bg-blue-50/60 rounded-xl border border-blue-100">
+              <Info size={15} className="text-blue-500 shrink-0" />
+              <p className="text-xs text-blue-700">
+                Only public repositories are fetched. Imported projects default to Draft status
+                and must be reviewed before publishing.
+              </p>
+            </div>
+          </CardBody>
+        </Card>
+        
         {/* SEO */}
         <Card>
           <CardHeader><h2 className="font-semibold text-gray-900">SEO</h2></CardHeader>
