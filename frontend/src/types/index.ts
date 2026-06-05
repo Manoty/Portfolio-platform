@@ -272,3 +272,42 @@ export interface SiteSettings {
   profile_image: string | null;
   updated_at: string;
 }
+
+// ---------------------------------------------------------------------------
+// GitHub Import
+// ---------------------------------------------------------------------------
+export interface GitHubRepository {
+  id:               number;
+  name:             string;
+  full_name:        string;
+  description:      string;
+  html_url:         string;
+  language:         string | null;
+  topics:           string[];
+  updated_at:       string;
+  pushed_at:        string;
+  stargazers_count: number;
+  forks_count:      number;
+  is_fork:          boolean;
+  is_archived:      boolean;
+  already_imported: boolean;
+}
+
+export interface GitHubReposResponse {
+  username: string;
+  count:    number;
+  repos:    GitHubRepository[];
+}
+
+export interface GitHubImportResult {
+  imported: { id: string; title: string; slug: string }[];
+  skipped:  { repo_id: number; name: string; reason: string }[];
+  errors:   { repo_id: number; name?: string; reason: string }[];
+}
+
+export interface GitHubValidateResponse {
+  valid:          boolean;
+  username:       string;
+  message?:       string;
+  error_message?: string;
+}
