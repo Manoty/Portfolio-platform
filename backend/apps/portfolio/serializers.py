@@ -76,3 +76,27 @@ class ExperienceSerializer(serializers.ModelSerializer):
             "start_date", "end_date", "description",
             "is_current", "order",
         ]
+        
+# ---------------------------------------------------------------------------
+# GitHub Import Serializers
+# ---------------------------------------------------------------------------
+
+class GitHubImportSerializer(serializers.Serializer):
+    """Validates the import request body."""
+    repo_ids = serializers.ListField(
+        child=serializers.IntegerField(min_value=1),
+        min_length=1,
+        error_messages={"min_length": "Select at least one repository to import."},
+    )
+
+
+class GitHubUsernameValidateSerializer(serializers.Serializer):
+    """Validates a GitHub username string."""
+    username = serializers.CharField(
+        max_length=100,
+        min_length=1,
+        error_messages={
+            "min_length": "Username cannot be empty.",
+            "max_length": "Username is too long.",
+        },
+    )        
