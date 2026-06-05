@@ -37,6 +37,8 @@ import AdminExperiencePage    from "@/pages/admin/ExperiencePage";
 import AdminSkillsPage        from "@/pages/admin/SkillsPage";
 import AdminSiteSettingsPage  from "@/pages/admin/SiteSettingsPage";
 
+import GitHubImportPage from "@/pages/admin/GitHubImportPage";
+
 // Guards
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
 
@@ -102,6 +104,8 @@ function AppRoutes() {
         <Route path="experience"              element={<AdminExperiencePage />}   />
         <Route path="skills"                  element={<AdminSkillsPage />}       />
         <Route path="settings"                element={<AdminSiteSettingsPage />} />
+        <Route path="github-import" element={<GitHubImportPage />} />
+        
       </Route>
     </Routes>
   );
