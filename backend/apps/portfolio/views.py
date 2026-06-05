@@ -204,3 +204,144 @@ class ExperienceDetailView(APIView):
         self.check_permissions(request)
         get_object_or_404(Experience, pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+# =============================================================================
+# GITHUB IMPORT VIEWS
+# =============================================================================
+from apps.core.models import SiteSettings
+from . import github_service
+from .serializers import GitHubImportSerializer, GitHubUsernameValidateSerializer
+
+
+class GitHubValidateUsernameView(APIView):
+    """
+    POST /api/projects/github/validate-username/
+    Validate a GitHub username before saving.
+    Admin only.
+    """
+    permission_classes = [IsAdminRole]
+
+    def post(self, request):
+        serializer = GitHubUsernameValidateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        username = serializer.validated_data["username"].strip()
+        is_valid, error_message = github_service.validate_github_username(username)
+
+        if is_valid:
+            return Response({
+                "valid":    True,
+                "username": username,
+                "message":  f"✓ GitHub user '{username}' found.",
+            })
+        else:
+            return Response({
+                "valid":         False,
+                "username":      username,
+                "error_message": error_message,
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GitHubReposView(APIView):
+    """
+    GET /api/projects/github/repos/
+    Fetch repositories for the configured GitHub username.
+    Admin only.
+
+    Optional query params:
+        ?username=override  — use a different username than the saved one
+        ?include_forks=true — include forked repositories (excluded by default)
+    """
+    permission_classes = [IsAdminRole]
+
+    def get(self, request):
+        # Use override username from query params, or fall back to saved setting
+        username = request.query_params.get("username", "").strip()
+        if not username:
+            settings = SiteSettings.get()
+            username = settings.github_username.strip()
+
+        if not username:
+            return Response(
+                {
+                    "error_code":    "NO_USERNAME",
+                    "error_message": "No GitHub username configured. Set it in Site Settings.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        result = github_service.fetch_repositories(username)
+
+        if not result.success:
+            return Response(
+                {
+                    "error_code":    result.error_code,
+                    "error_message": result.error_message,
+                },
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
+
+        # Filter out forks unless explicitly requested
+        include_forks = request.query_params.get("include_forks", "false").lower() == "true"
+        repos = result.data
+        if not include_forks:
+            repos = [r for r in repos if not r["is_fork"]]
+
+        # Apply search filter if provided
+        search = request.query_params.get("search", "").lower().strip()
+        if search:
+            repos = [
+                r for r in repos
+                if search in r["name"].lower()
+                or search in (r.get("description") or "").lower()
+                or any(search in t.lower() for t in r.get("topics", []))
+            ]
+
+        return Response({
+            "username":   username,
+            "count":      len(repos),
+            "repos":      repos,
+        })
+
+
+class GitHubImportView(APIView):
+    """
+    Import selected GitHub repositories as draft projects.
+    Admin only.
+
+    Request body:
+        { "repo_ids": [123, 456, 789] }
+
+    Response:
+        {
+            "imported": [{"id": uuid, "title": str, "slug": str}, ...],
+            "skipped":  [{"repo_id": int, "name": str, "reason": str}, ...],
+            "errors":   [{"repo_id": int, "reason": str}, ...],
+        }
+    """
+    permission_classes = [IsAdminRole]
+
+    def post(self, request):
+        serializer = GitHubImportSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        repo_ids = serializer.validated_data["repo_ids"]
+
+        settings = SiteSettings.get()
+        username = settings.github_username.strip()
+
+        if not username:
+            return Response(
+                {"detail": "No GitHub username configured. Set it in Site Settings."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        result = github_service.import_repositories(repo_ids, username)
+
+        http_status = status.HTTP_200_OK
+        # If everything errored, signal that something went wrong
+        if not result["imported"] and result["errors"]:
+            http_status = status.HTTP_502_BAD_GATEWAY
+
+        return Response(result, status=http_status)    
