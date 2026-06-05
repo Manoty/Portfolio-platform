@@ -49,6 +49,13 @@ class Project(models.Model):
     github_url           = models.URLField(max_length=500, blank=True)
     live_url             = models.URLField(max_length=500, blank=True)
     technologies         = models.ManyToManyField(Technology, blank=True, related_name="projects")
+    github_repo_id = models.PositiveBigIntegerField(
+        unique=True,
+        null=True,
+        blank=True,
+        db_index=True,
+        help_text="GitHub repository ID — set on import, prevents duplicates",
+    )
 
     # ----- NEW -----
     category = models.CharField(

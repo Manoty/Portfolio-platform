@@ -52,6 +52,12 @@ class SiteSettings(models.Model):
     linkedin_url   = models.URLField(blank=True, default="https://linkedin.com/in/kevinmanoti")
     twitter_url    = models.URLField(blank=True, default="https://twitter.com/kevinmanoti")
     website_url    = models.URLField(blank=True)
+    github_username = models.CharField(
+        max_length=100,
+        blank=True,
+        default="kevinmanoti",
+        help_text="GitHub username for repository import feature",
+    )
 
     # -------------------------------------------------------------------------
     # Stats (shown in About section)
