@@ -6,13 +6,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
-import { Settings, Code2, Briefcase, Cpu } from "lucide-react";
-import { GitHub } from "lucide-react";
+import { Settings, Code2, Briefcase, Cpu, ExternalLink } from "lucide-react";
 
 const NAV_ITEMS = [
   { to: "/admin",            icon: LayoutDashboard, label: "Dashboard",    exact: true },
   { to: "/admin/projects",   icon: FolderKanban,    label: "Projects" },
-  { to: "/admin/github-import", icon: GitHub, label: "GitHub Import" },
+  { to: "/admin/github-import", icon: ExternalLink, label: "GitHub Import" },
   { to: "/admin/blog",       icon: FileText,         label: "Blog" },
   { to: "/admin/messages",   icon: MessageSquare,    label: "Messages" },
   { to: "/admin/resume",     icon: FileUp,           label: "Resume" },
