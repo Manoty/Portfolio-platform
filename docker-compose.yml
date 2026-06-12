@@ -1,0 +1,72 @@
+# =============================================================================
+# DEVELOPMENT — Hot reload, volume mounts, exposed ports
+# =============================================================================
+version: "3.9"
+
+services:
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${DB_NAME:-portfolio_db}
+      POSTGRES_USER:     ${DB_USER:-portfolio_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-devpassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-portfolio_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context:    ./backend
+      dockerfile: Dockerfile
+      target:     builder         # use builder stage for dev (has gcc etc.)
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.development
+      SECRET_KEY:              ${SECRET_KEY:-dev-secret-key-change-in-prod}
+      DEBUG:                   "True"
+      DB_NAME:                 ${DB_NAME:-portfolio_db}
+      DB_USER:                 ${DB_USER:-portfolio_user}
+      DB_PASSWORD:             ${DB_PASSWORD:-devpassword}
+      DB_HOST:                 db
+      DB_PORT:                 "5432"
+      ALLOWED_HOSTS:           "localhost,127.0.0.1,backend"
+      CORS_ALLOWED_ORIGINS:    "http://localhost:5173,http://localhost:3000"
+      FRONTEND_URL:            "http://localhost:5173"
+    volumes:
+      - ./backend:/app
+      - media_files:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_API_URL: http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  media_files:
