@@ -10,16 +10,29 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir:        "dist",
+    sourcemap:     false,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor:  ["react", "react-dom", "react-router-dom"],
+          charts:  ["recharts"],
+          icons:   ["lucide-react"],
+        },
+      },
+    },
+  },
   server: {
     port: 5173,
     proxy: {
-      // Proxy all /api calls to Django in development
       "/api": {
-        target: "http://127.0.0.1:8000",
+        target:       "http://127.0.0.1:8000",
         changeOrigin: true,
       },
       "/media": {
-        target: "http://127.0.0.1:8000",
+        target:       "http://127.0.0.1:8000",
         changeOrigin: true,
       },
     },
