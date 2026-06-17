@@ -173,9 +173,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Also allow Railway and Vercel preview URLs
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://.*\.railway\.app$",
-    r"^https://.*\.vercel\.app$",
-    r"^https://.*\.up\.railway\.app$",
+    r"^https://.*\.onrender\.com$",
 ]
 
 CORS_ALLOWED_ORIGINS = config(

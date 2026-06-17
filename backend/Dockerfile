@@ -1,13 +1,12 @@
 # =============================================================================
-# BACKEND — Django production image for Railway
+# BACKEND — Django on Render
 # =============================================================================
 FROM python:3.12-slim
 
 WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8000
+    PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -27,7 +26,6 @@ RUN mkdir -p /app/media /app/staticfiles
 
 EXPOSE 8000
 
-# Run migrations then start gunicorn
 CMD python manage.py migrate --noinput && \
     python manage.py collectstatic --noinput && \
     gunicorn config.wsgi:application \
