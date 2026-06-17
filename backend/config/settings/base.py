@@ -163,7 +163,21 @@ SIMPLE_JWT = {
 
 # =============================================================================
 # CORS
-# =============================================================================
+# CORS — origins that can call the API
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="http://localhost:5173"
+).split(",")
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Also allow Railway and Vercel preview URLs
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.railway\.app$",
+    r"^https://.*\.vercel\.app$",
+    r"^https://.*\.up\.railway\.app$",
+]
+
 CORS_ALLOWED_ORIGINS = config(
     "CORS_ALLOWED_ORIGINS", default="http://localhost:5173"
 ).split(",")
